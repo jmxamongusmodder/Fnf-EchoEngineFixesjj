@@ -11,12 +11,10 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxAxes;
 import flixel.util.FlxColor;
 
-class PlayState extends FlxState
+class PauseScreenALTSubstance extends FlxState
 {
 	override public function create()
 	{
-		bgColor = 0;
-
 		var bg:FlxTileblock = new FlxTileblock(0, 0, FlxG.width * 2, FlxG.height);
 		bg.loadTiles("assets/tiles.png", 16, 16, 4);
 		bg.screenCenter();

@@ -1309,10 +1309,14 @@ class PlayState extends MusicBeatState
 					add(blackScreen);
 					blackScreen.scrollFactor.set();
 					camHUD.visible = false;
+					#if desktop
 					inCutscene = true;
+					#else
+					inCutscene = false;
+					#end
 
 					FlxTween.tween(blackScreen, {alpha: 0}, 0.7, {
-						ease: FlxEase.linear,
+						ease: FlxEase.circOut,
 						onComplete: function(twn:FlxTween) {
 							remove(blackScreen);
 						}
@@ -4596,16 +4600,6 @@ class PlayState extends MusicBeatState
 			RecalculateRating(true);
 
 			FlxG.sound.play(Paths.soundRandom('missnote', 1, 3), FlxG.random.float(0.1, 0.2));
-			// FlxG.sound.play(Paths.sound('missnote1'), 1, false);
-			// FlxG.log.add('played imss note');
-
-			/*boyfriend.stunned = true;
-
-			// get stunned for 1/60 of a second, makes you able to
-			new FlxTimer().start(1 / 60, function(tmr:FlxTimer)
-			{
-				boyfriend.stunned = false;
-			});*/
 
 			if(boyfriend.hasMissAnimations) {
 				boyfriend.playAnim(singAnimations[Std.int(Math.abs(direction))] + 'miss', true);
@@ -4740,7 +4734,7 @@ class PlayState extends MusicBeatState
 					if(gf != null && gf.animOffsets.exists('cheer')) {
 						gf.playAnim('cheer', true);
 						gf.specialAnim = true;
-						gf.heyTimer = 0.6;
+						gf.heyTimer = 0.7;
 					}
 				}
 			}
@@ -4876,6 +4870,7 @@ class PlayState extends MusicBeatState
 			}
 
 			if (phillyTrain.x < -4000 && trainFinishing)
+			    phillyTrain.visible = false;
 				trainReset();
 		}
 	}
@@ -4890,11 +4885,13 @@ class PlayState extends MusicBeatState
 		}
 		phillyTrain.x = FlxG.width + 200;
 		trainMoving = false;
-		// trainSound.stop();
-		// trainSound.time = 0;
 		trainCars = 8;
 		trainFinishing = false;
 		startedMoving = false;
+		if (startedMoving == true)
+		{
+			phillyTrain.visible = true;
+		}
 	}
 
 	function lightningStrikeShit():Void
@@ -4902,7 +4899,7 @@ class PlayState extends MusicBeatState
 		FlxG.sound.play(Paths.soundRandom('thunder_', 1, 2));
 		if(!ClientPrefs.lowQuality) halloweenBG.animation.play('halloweem bg lightning strike');
 
-		lightningStrikeBeat = curBeat;
+		lightningStrikeBeat = curBeat + 1;
 		lightningOffset = FlxG.random.int(8, 24);
 
 		if(boyfriend.animOffsets.exists('scared')) {
@@ -5310,7 +5307,7 @@ class PlayState extends MusicBeatState
 							}
 						}
 					case 'toastie':
-						if(/*ClientPrefs.framerate <= 60 &&*/ !ClientPrefs.shaders && ClientPrefs.lowQuality && !ClientPrefs.globalAntialiasing) {
+						if(!ClientPrefs.shaders && ClientPrefs.lowQuality && !ClientPrefs.globalAntialiasing) {
 							unlock = true;
 						}
 					case 'debugger':

@@ -5,16 +5,14 @@ import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.ui.FlxVirtualPad;
 
-class PlayState extends FlxState
+class BGAlignEditor extends FlxState
 {
 	var sprite:FlxSprite;
 	var pad:FlxVirtualPad;
 
 	override public function create()
 	{
-		bgColor = 0;
-
-super.create();
+        super.create();
 
 		sprite = new FlxSprite("assets/sprite.png");
 		sprite.screenCenter();
